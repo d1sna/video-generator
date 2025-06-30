@@ -12,7 +12,7 @@ export default function ImageUploader() {
 	const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 	const [uploading, setUploading] = useState(false);
 	const [sessionId, setSessionId] = useState<string | null>(null);
-	let intervalId: number | undefined;
+	let intervalId: any;
 	const [status, setStatus] = useState<
 		"Pending" | "Completed" | "Failed" | null
 	>(null);

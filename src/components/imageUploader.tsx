@@ -6,6 +6,12 @@ import { Image } from "primereact/image";
 import { Button } from "./ui/button";
 
 const acceptedFileTypes = ["image/jpeg", "image/png", "image/gif"];
+const w8messages = [
+	"Generating video...",
+	"Please wait, your video is being processed...",
+	"Hang tight, we're creating your shoppable video...",
+	"Almost there, just a few more seconds...",
+];
 
 export default function ImageUploader() {
 	const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -16,6 +22,9 @@ export default function ImageUploader() {
 	const [status, setStatus] = useState<
 		"Pending" | "Completed" | "Failed" | null
 	>(null);
+	const [waitingMessage, setWaitingMessage] = useState<string | null>(
+		"Generating video...",
+	);
 	const [videoUrl, setVideoUrl] = useState<string | null>(null);
 	let counter = 0;
 
@@ -23,11 +32,13 @@ export default function ImageUploader() {
 	useEffect(() => {
 		const fetchStatus = async () => {
 			try {
-				const res = await fetch(`${process.env.API_URL}/video/${sessionId}`);
+				const res = await fetch(
+					`${"https://shoppable-videos.onrender.com"}/video/${sessionId}`,
+				);
 				if (!res.ok) throw new Error("Fetch error");
 				const data = await res.json();
 
-				console.log({ counter });
+				setWaitingMessage(w8messages[counter] || "Generating video...");
 				counter += 1;
 
 				// TODO:
@@ -74,10 +85,13 @@ export default function ImageUploader() {
 		formData.append("file", selectedFile);
 
 		try {
-			const res = await fetch(`${process.env.API_URL}/upload`, {
-				method: "POST",
-				body: formData,
-			});
+			const res = await fetch(
+				`${"https://shoppable-videos.onrender.com"}/upload`,
+				{
+					method: "POST",
+					body: formData,
+				},
+			);
 			const data = await res.json();
 			setSessionId(data.session_id);
 		} catch (error) {
@@ -91,7 +105,7 @@ export default function ImageUploader() {
 		return (
 			<>
 				<BounceLoader color="white" />
-				<div className="mt-10">Generating video...</div>
+				<div className="mt-10">{waitingMessage}</div>
 			</>
 		);
 	}

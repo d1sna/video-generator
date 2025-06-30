@@ -104,7 +104,7 @@ export default function ImageUploader() {
 	if (sessionId && status === "Pending") {
 		return (
 			<>
-				<BounceLoader color="white" />
+				<BounceLoader color="white" size={200} />
 				<div className="mt-10">{waitingMessage}</div>
 			</>
 		);
@@ -122,7 +122,10 @@ export default function ImageUploader() {
 						default
 					/>
 				</video>
-				<div className="mt-10">Your video was successfully done</div>
+				<div className="mt-10">
+					<p>Your video was successfully done.</p>
+					<p>Download it and share.</p>
+				</div>
 			</div>
 		);
 	}
@@ -132,7 +135,7 @@ export default function ImageUploader() {
 			<label className="block cursor-pointer">
 				<div className=" flex flex-col items-center border-dashed border-2 border-gray-500 rounded-xl p-6 min-w-84 min-h-44">
 					{previewUrl ? (
-						<Image src={previewUrl} alt="Image" width="250" />
+						<Image src={previewUrl} alt="Image" />
 					) : (
 						<div className="flex flex-col items-center text-gray-500">
 							<Upload />

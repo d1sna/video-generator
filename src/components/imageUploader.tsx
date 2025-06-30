@@ -23,7 +23,7 @@ export default function ImageUploader() {
 	useEffect(() => {
 		const fetchStatus = async () => {
 			try {
-				const res = await fetch(`http://localhost:8000/video/${sessionId}`);
+				const res = await fetch(`${process.env.API_URL}/video/${sessionId}`);
 				if (!res.ok) throw new Error("Fetch error");
 				const data = await res.json();
 
@@ -74,7 +74,7 @@ export default function ImageUploader() {
 		formData.append("file", selectedFile);
 
 		try {
-			const res = await fetch("http://localhost:8000/upload", {
+			const res = await fetch(`${process.env.API_URL}/upload`, {
 				method: "POST",
 				body: formData,
 			});
